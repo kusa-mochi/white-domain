@@ -22,7 +22,12 @@ function WhiteDomain() {
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         if (changeInfo.status == 'complete' && tab.active) {
             var tablink = tab.url;
-            var domain = tablink.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
+            var domain = tablink
+                            .replace('http://www.', '')
+                            .replace('https://www.', '')
+                            .replace('http://', '')
+                            .replace('https://', '')
+                            .split(/[/?#]/)[0];
             chrome.browserAction.setBadgeText({ text: IsWhiteDomain(domain) ? "SAFE" : "" });
         }
     });

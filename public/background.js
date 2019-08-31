@@ -6,7 +6,15 @@ function IsWhiteDomain(domain) {
     //     console.log('Value currently is ' + result.whiteList);
     // });
 
-    return true;
+    // return true;
+
+
+    //DEBUG
+    return (
+        domain == 'google.com' ||
+        domain == 'youtube.com' ||
+        domain == 'slash-mochi.net'
+    );
 }
 
 function WhiteDomain() {
@@ -16,7 +24,6 @@ function WhiteDomain() {
             var tablink = tab.url;
             var domain = tablink.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
             chrome.browserAction.setBadgeText({ text: IsWhiteDomain(domain) ? "SAFE" : "" });
-            alert(domain);
         }
     });
 }

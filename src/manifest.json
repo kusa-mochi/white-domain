@@ -1,7 +1,7 @@
 {
-  "description": "extension description",
+  "description": "show green label on badge when you access to a site that is in your white list.",
   "manifest_version": 2,
-  "name": "Extension Base",
+  "name": "White Domain",
   "version": "1.0",
   "permissions": [
     "tabs",
@@ -13,7 +13,7 @@
     ]
   },
   "browser_action": {
-    "default_title": "title"
+    "default_title": "White Domain"
   },
   "options_ui": {
     "page": "options.html",

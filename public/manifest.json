@@ -3,6 +3,11 @@
   "manifest_version": 2,
   "name": "White Domain",
   "version": "1.0",
+  "icons": {
+    "16": "slash-mochi16.png",
+    "48": "slash-mochi48.png",
+    "128": "slash-mochi128.png"
+  },
   "permissions": [
     "tabs",
     "storage"

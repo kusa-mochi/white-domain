@@ -1,7 +1,7 @@
 function IsWhiteDomain(domain) {
 
     //TODO: check if a domain is in user's white list.
-    
+
     return true;
 }
 
@@ -10,13 +10,8 @@ function WhiteDomain() {
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         if (changeInfo.status == 'complete' && tab.active) {
             var tablink = tab.url;
-            var domain = tablink.replace('http://','').replace('https://','').split(/[/?#]/)[0];
-            if(IsWhiteDomain(domain) == true) {
-                chrome.browserAction.setBadgeText({ text: "SAFE" });
-            }
-            else {
-                chrome.browserAction.setBadgeText({ text: "" });
-            }
+            var domain = tablink.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
+            chrome.browserAction.setBadgeText({ text: IsWhiteDomain(domain) ? "SAFE" : "" });
             alert(domain);
         }
     });

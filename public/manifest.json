@@ -16,7 +16,7 @@
     "default_title": "White Domain"
   },
   "options_ui": {
-    "page": "options.html",
+    "page": "index.html",
     "chrome_style": true
   }
 }

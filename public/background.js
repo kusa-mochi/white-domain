@@ -2,6 +2,10 @@ function IsWhiteDomain(domain) {
 
     //TODO: check if a domain is in user's white list.
 
+    // chrome.storage.sync.get(['whiteList'], function (result) {
+    //     console.log('Value currently is ' + result.whiteList);
+    // });
+
     return true;
 }
 

@@ -54,6 +54,17 @@ export default {
       this.domainListData.some((v, i) => {
         if (id === v.id) this.domainListData.splice(i, 1);
       });
+    },
+    saveData() {
+      chrome.storage.sync.set({ key: value }, function() {
+        console.log("Value is set to " + value);
+      });
+    },
+    loadData() {
+      chrome.storage.sync.get(["key"], function(result) {
+        console.log("Value currently is " + result.key);
+      });
+    }
   },
   computed: {
     isAddButtonDisabled() {

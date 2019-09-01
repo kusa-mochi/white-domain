@@ -2,8 +2,8 @@
   <div id="app">
     <h2>Your white domain list</h2>
     <div class="input-area">
-      <input type="text" />
-      <button>Add</button>
+      <input type="text" v-model="addItemText" />
+      <button v-on:click="addItem()" v-bind:disabled="isAddButtonDisabled">Add</button>
     </div>
     <table>
       <tbody>
@@ -38,15 +38,27 @@ export default {
           id: 3,
           domain: "github.com"
         }
-      ]
+      ],
+      addItemText: ""
     };
   },
   methods: {
-    // クリック時などに実行する関数をまとめるプロパティ。
+    addItem() {
+      const numListData = this.domainListData.length;
+      this.domainListData.push({
+        id: numListData + 1,
+        domain: this.addItemText
+      });
+    },
     deleteItem(id) {
       this.domainListData.some((v, i) => {
         if (id === v.id) this.domainListData.splice(i, 1);
       });
+  },
+  computed: {
+    isAddButtonDisabled() {
+      if (this.addItemText === "") return true;
+      return false;
     }
   },
   components: {

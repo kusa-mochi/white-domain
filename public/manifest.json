@@ -1,7 +1,7 @@
 {
   "description": "show green label on badge when you access to a site that is in your white list.",
   "manifest_version": 2,
-  "name": "White Domain",
+  "name": "White Domain Badge",
   "version": "1.0",
   "icons": {
     "16": "slash-mochi16.png",
@@ -18,7 +18,7 @@
     ]
   },
   "browser_action": {
-    "default_title": "White Domain"
+    "default_title": "White Domain Badge"
   },
   "options_ui": {
     "page": "index.html",

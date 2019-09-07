@@ -67,10 +67,12 @@ export default {
     addItem() {
       console.log("begin addItem()");
       if (this.addItemText.length === 0) return;
-      let inputDomains = this.addItemText.split(";");
+      let inputDomains = this.addItemText.replace(/\s+/g, "").split(";");
 
-      if (inputDomains.length === 1) {
-        let inputDomain = this.getDomainFromUrl(inputDomains[0]);
+      let currentAddIndex = this.domainListData.length + 1;
+      for (let iDomain = 0; iDomain < inputDomains.length; iDomain++) {
+        let inputDomain = inputDomains[iDomain];
+        inputDomain = this.getDomainFromUrl(inputDomain);
         inputDomain = this.trimWWWFromDomain(inputDomain);
 
         // if a domain is already registered
@@ -79,49 +81,25 @@ export default {
             return item.domain === inputDomain;
           })
         ) {
-          this.duplicateDomain = inputDomain;
-          this.isDuplicateErrorMessageVisible = true;
-          this.addItemText = "";
-          return;
-        }
-
-        this.isDuplicateErrorMessageVisible = false;
-
-        const numListData = this.domainListData.length;
-        this.domainListData.push({
-          id: numListData + 1,
-          domain: inputDomain
-        });
-
-        this.saveData(this.domainListData);
-
-        this.addItemText = "";
-      } else {
-        let currentAddIndex = this.domainListData.length + 1;
-        for (let iDomain = 0; iDomain < inputDomains.length; iDomain++) {
-          let inputDomain = inputDomains[iDomain];
-          inputDomain = this.getDomainFromUrl(inputDomain);
-          inputDomain = this.trimWWWFromDomain(inputDomain);
-
-          // if a domain is already registered
-          if (
-            this.domainListData.some(item => {
-              return item.domain === inputDomain;
-            })
-          ) {
+          if (inputDomains.length === 1) {
+            this.duplicateDomain = inputDomain;
+            this.isDuplicateErrorMessageVisible = true;
+            this.addItemText = "";
+            return;
+          } else {
             continue;
           }
-
-          this.domainListData.push({
-            id: currentAddIndex++,
-            domain: inputDomain
-          });
         }
 
-        this.saveData(this.domainListData);
-        this.isDuplicateErrorMessageVisible = false;
-        this.addItemText = "";
+        this.domainListData.push({
+          id: currentAddIndex++,
+          domain: inputDomain
+        });
       }
+
+      this.saveData(this.domainListData);
+      this.isDuplicateErrorMessageVisible = false;
+      this.addItemText = "";
     },
     deleteItem(id) {
       console.log("begin deleteItem()");

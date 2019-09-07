@@ -13,7 +13,6 @@
         v-model="addItemText"
         v-on:keydown.enter="addItem"
       />
-      <!-- <button v-on:click="addItem" v-bind:disabled="isAddButtonDisabled">Add</button> -->
     </div>
     <table>
       <tbody>
@@ -162,12 +161,6 @@ export default {
       });
     }
   },
-  // computed: {
-  //   isAddButtonDisabled() {
-  //     if (this.addItemText === "") return true;
-  //     return false;
-  //   }
-  // },
   mounted() {
     this.loadData();
   },

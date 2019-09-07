@@ -25,44 +25,81 @@ export default {
   name: "app",
   data() {
     return {
-      domainListData: [
-        {
-          id: 1,
-          domain: "google.com"
-        },
-        {
-          id: 2,
-          domain: "slash-mochi.net"
-        },
-        {
-          id: 3,
-          domain: "github.com"
-        }
-      ],
+      domainListData: [],
       addItemText: ""
     };
   },
   methods: {
     addItem() {
+      console.log("begin addItem()");
       const numListData = this.domainListData.length;
       this.domainListData.push({
         id: numListData + 1,
         domain: this.addItemText
       });
+
+      this.saveData(this.domainListData);
     },
     deleteItem(id) {
+      console.log("begin deleteItem()");
       this.domainListData.some((v, i) => {
         if (id === v.id) this.domainListData.splice(i, 1);
       });
+
+      this.saveData(this.domainListData);
     },
-    saveData() {
-      chrome.storage.sync.set({ key: value }, function() {
-        console.log("Value is set to " + value);
-      });
+    serialize(data) {
+      let dataToSave = "";
+
+      for (let iDomain = 0; iDomain < data.length; iDomain++) {
+        dataToSave += data[iDomain].domain;
+        if (iDomain < data.length - 1) {
+          dataToSave += ",";
+        }
+        console.log(
+          "saveData(data): data[" +
+            iDomain +
+            "].domain: " +
+            data[iDomain].domain
+        );
+      }
+
+      return dataToSave;
+    },
+    saveData(data) {
+      console.log("begin saveData()");
+      if (data === undefined || data === null) {
+        console.log("saveData(data): data is undefined or null.");
+        return;
+      }
+      if (data.length === 0) {
+        console.log("saveData(data): there is no data.");
+        return;
+      }
+
+      let dataToSave = this.serialize(data);
+      console.log("dataToSave: " + dataToSave);
+
+      chrome.storage.sync.set({ "domains": dataToSave }, function() {});
+    },
+    deserialize(list) {
+      output = [];
+      tmpList = list.split(",");
+      for (let i = 0; i < tmpList.length; i++) {
+        output.push({
+          id: i,
+          domain: tmpList[i]
+        });
+      }
+      return output;
     },
     loadData() {
-      chrome.storage.sync.get(["key"], function(result) {
-        console.log("Value currently is " + result.key);
+      console.log("begin loadData()");
+      chrome.storage.sync.get("domains", function(result) {
+        console.log("storage get: " + result.domains);
+        if (result.domains === undefined || result.domains === null) return;
+
+        this.domainListData = this.deserialize(result.domains);
       });
     }
   },
@@ -71,6 +108,9 @@ export default {
       if (this.addItemText === "") return true;
       return false;
     }
+  },
+  mounted() {
+    this.loadData();
   },
   components: {
     DomainListRow

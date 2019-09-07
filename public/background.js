@@ -29,22 +29,15 @@ function SetNoBadge() {
 function SetBadgeText(url) {
     console.log('Begin SetBadgeText(url)');
     const domain = GetDomainFromUrl(url);
-    console.log('SetBadgeText(url): domain=' + domain);
     if (domain !== undefined && domain !== null) {
         chrome.storage.sync.get("domains", function (result) {
-            console.log("storage result: " + result);
-            console.log("storage get: " + result.domains);
             if (result.domains === undefined || result.domains === null) {
                 SetNoBadge();
                 return;
             }
 
             const list = deserialize(result.domains);
-            console.log('IsWhiteDomain(): whiteList=' + list);
-            for(let iList = 0; iList < list.length; iList++) {
-                console.log('domain #' + iList + ': ' + list[iList].domain);
-            }
-
+            
             if (list === undefined || list === null) {
                 SetNoBadge();
                 return;

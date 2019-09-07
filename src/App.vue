@@ -67,10 +67,8 @@ export default {
     addItem() {
       console.log("begin addItem()");
       let inputDomain = this.addItemText;
-      console.log("input from: " + inputDomain);
       inputDomain = this.getDomainFromUrl(inputDomain);
       inputDomain = this.trimWWWFromDomain(inputDomain);
-      console.log("input to: " + inputDomain);
 
       // if a domain is already registered
       if (
@@ -112,12 +110,6 @@ export default {
         if (iDomain < data.length - 1) {
           dataToSave += ",";
         }
-        console.log(
-          "saveData(data): data[" +
-            iDomain +
-            "].domain: " +
-            data[iDomain].domain
-        );
       }
 
       return dataToSave;

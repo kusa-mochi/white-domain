@@ -4,7 +4,7 @@
     <div
       v-if="isDuplicateErrorMessageVisible"
       class="duplicate-error-message"
-    >{{duplicateDomain}} is already in your white domain list.</div>
+    ><span class="duplicate-error-message-domain">{{duplicateDomain}}</span> is already in your white domain list.</div>
     <div class="input-area">
       <input
         type="text"
@@ -171,6 +171,10 @@ export default {
 <style scoped>
 .duplicate-error-message {
   color: red;
+}
+
+.duplicate-error-message-domain {
+  font-weight: bold;
 }
 
 .domain-input {

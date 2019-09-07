@@ -180,6 +180,6 @@ export default {
 }
 
 .domain-input {
-  width: 250px;
+  width: 500px;
 }
 </style>

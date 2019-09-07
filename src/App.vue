@@ -72,6 +72,8 @@ export default {
       let currentAddIndex = this.domainListData.length + 1;
       for (let iDomain = 0; iDomain < inputDomains.length; iDomain++) {
         let inputDomain = inputDomains[iDomain];
+        if (inputDomain === "") continue;
+
         inputDomain = this.getDomainFromUrl(inputDomain);
         inputDomain = this.trimWWWFromDomain(inputDomain);
 

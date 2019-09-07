@@ -1,9 +1,19 @@
 <template>
   <div id="app">
     <h2>Your white domain list</h2>
+    <div
+      v-if="isDuplicateErrorMessageVisible"
+      class="duplicate-error-message"
+    >{{duplicateDomain}} is already in your white domain list.</div>
     <div class="input-area">
-      <input type="text" v-model="addItemText" v-on:keydown.enter="addItem" />
-      <button v-on:click="addItem" v-bind:disabled="isAddButtonDisabled">Add</button>
+      <input
+        type="text"
+        placeholder="write a domain and press ENTER key"
+        class="domain-input"
+        v-model="addItemText"
+        v-on:keydown.enter="addItem"
+      />
+      <!-- <button v-on:click="addItem" v-bind:disabled="isAddButtonDisabled">Add</button> -->
     </div>
     <table>
       <tbody>
@@ -26,16 +36,60 @@ export default {
   data() {
     return {
       domainListData: [],
-      addItemText: ""
+      addItemText: "",
+      isDuplicateErrorMessageVisible: false,
+      duplicateDomain: ""
     };
   },
   methods: {
+    getDomainFromUrl(url) {
+      return url
+        .replace("http://www.", "")
+        .replace("https://www.", "")
+        .replace("http://", "")
+        .replace("https://", "")
+        .split(/[/?#]/)[0];
+    },
+    trimWWWFromDomain(domain) {
+      let output = domain;
+
+      if (output.length < 5) {
+        return domain;
+      }
+
+      const domainHead = domain.slice(0, 4);
+      if (domainHead === "www.") {
+        output = output.slice(4);
+      }
+
+      return output;
+    },
     addItem() {
       console.log("begin addItem()");
+      let inputDomain = this.addItemText;
+      console.log("input from: " + inputDomain);
+      inputDomain = this.getDomainFromUrl(inputDomain);
+      inputDomain = this.trimWWWFromDomain(inputDomain);
+      console.log("input to: " + inputDomain);
+
+      // if a domain is already registered
+      if (
+        this.domainListData.some(item => {
+          return item.domain === inputDomain;
+        })
+      ) {
+        this.duplicateDomain = inputDomain;
+        this.isDuplicateErrorMessageVisible = true;
+        this.addItemText = "";
+        return;
+      }
+
+      this.isDuplicateErrorMessageVisible = false;
+
       const numListData = this.domainListData.length;
       this.domainListData.push({
         id: numListData + 1,
-        domain: this.addItemText
+        domain: inputDomain
       });
 
       this.saveData(this.domainListData);
@@ -122,5 +176,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.duplicate-error-message {
+  color: red;
+}
+
+.domain-input {
+  width: 250px;
+}
 </style>

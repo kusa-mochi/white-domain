@@ -37,7 +37,7 @@ function SetBadgeText(url) {
             }
 
             const list = deserialize(result.domains);
-            
+
             if (list === undefined || list === null) {
                 SetNoBadge();
                 return;
@@ -57,6 +57,23 @@ function SetBadgeText(url) {
     }
 }
 
+function openOrFocusOptionsPage() {
+    var optionsUrl = chrome.extension.getURL('index.html');
+    chrome.tabs.query({}, function (extensionTabs) {
+        var found = false;
+        for (var i = 0; i < extensionTabs.length; i++) {
+            if (optionsUrl == extensionTabs[i].url) {
+                found = true;
+                console.log("tab id: " + extensionTabs[i].id);
+                chrome.tabs.update(extensionTabs[i].id, { "selected": true });
+            }
+        }
+        if (found == false) {
+            chrome.tabs.create({ url: "index.html" });
+        }
+    });
+}
+
 function WhiteDomain() {
     chrome.browserAction.setBadgeBackgroundColor({ color: [44, 148, 60, 100] });
 
@@ -74,6 +91,23 @@ function WhiteDomain() {
             console.log('tab switched. url=' + tab[0].url);
             SetBadgeText(tab[0].url);
         });
+    });
+
+    chrome.extension.onConnect.addListener(function (port) {
+        var tab = port.sender.tab;
+        // This will get called by the content script we execute in
+        // the tab as a result of the user pressing the browser action.
+        port.onMessage.addListener(function (info) {
+            var max_length = 1024;
+            if (info.selection.length > max_length)
+                info.selection = info.selection.substring(0, max_length);
+            openOrFocusOptionsPage();
+        });
+    });
+
+    // Called when the user clicks on the browser action icon.
+    chrome.browserAction.onClicked.addListener(function (tab) {
+        openOrFocusOptionsPage();
     });
 }
 

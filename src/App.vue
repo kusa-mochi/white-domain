@@ -8,7 +8,7 @@
     <div class="input-area">
       <input
         type="text"
-        placeholder="slash-mochi.net;google.com;youtube.com"
+        placeholder="slash-mochi.net,google.com,youtube.com"
         class="domain-input"
         v-model="addItemText"
         v-on:keydown.enter="addItem"
@@ -67,7 +67,7 @@ export default {
     addItem() {
       console.log("begin addItem()");
       if (this.addItemText.length === 0) return;
-      let inputDomains = this.addItemText.replace(/\s+/g, "").split(";");
+      let inputDomains = this.addItemText.replace(/\s+/g, "").split(",");
 
       let currentAddIndex = this.domainListData.length + 1;
       for (let iDomain = 0; iDomain < inputDomains.length; iDomain++) {

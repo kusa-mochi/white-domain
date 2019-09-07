@@ -19,7 +19,7 @@ function deserialize(list) {
 }
 
 function SetWhiteBadge() {
-    chrome.browserAction.setBadgeText({ text: 'WHITE' });
+    chrome.browserAction.setBadgeText({ text: 'OK' });
 }
 
 function SetNoBadge() {

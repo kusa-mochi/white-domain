@@ -2,10 +2,9 @@
   <div id="app">
     <h2>Your white domain list</h2>
     <div>Write domains (separeted by semicolon) and press ENTER key to register "white" domains.</div>
-    <div
-      v-if="isDuplicateErrorMessageVisible"
-      class="duplicate-error-message"
-    ><span class="duplicate-error-message-domain">{{duplicateDomain}}</span> is already in your white domain list.</div>
+    <div v-if="isDuplicateErrorMessageVisible" class="duplicate-error-message">
+      <span class="duplicate-error-message-domain">{{duplicateDomain}}</span> is already in your white domain list.
+    </div>
     <div class="input-area">
       <input
         type="text"
@@ -67,33 +66,62 @@ export default {
     },
     addItem() {
       console.log("begin addItem()");
-      let inputDomain = this.addItemText;
-      inputDomain = this.getDomainFromUrl(inputDomain);
-      inputDomain = this.trimWWWFromDomain(inputDomain);
+      if (this.addItemText.length === 0) return;
+      let inputDomains = this.addItemText.split(";");
 
-      // if a domain is already registered
-      if (
-        this.domainListData.some(item => {
-          return item.domain === inputDomain;
-        })
-      ) {
-        this.duplicateDomain = inputDomain;
-        this.isDuplicateErrorMessageVisible = true;
+      if (inputDomains.length === 1) {
+        let inputDomain = this.getDomainFromUrl(inputDomains[0]);
+        inputDomain = this.trimWWWFromDomain(inputDomain);
+
+        // if a domain is already registered
+        if (
+          this.domainListData.some(item => {
+            return item.domain === inputDomain;
+          })
+        ) {
+          this.duplicateDomain = inputDomain;
+          this.isDuplicateErrorMessageVisible = true;
+          this.addItemText = "";
+          return;
+        }
+
+        this.isDuplicateErrorMessageVisible = false;
+
+        const numListData = this.domainListData.length;
+        this.domainListData.push({
+          id: numListData + 1,
+          domain: inputDomain
+        });
+
+        this.saveData(this.domainListData);
+
         this.addItemText = "";
-        return;
+      } else {
+        let currentAddIndex = this.domainListData.length + 1;
+        for (let iDomain = 0; iDomain < inputDomains.length; iDomain++) {
+          let inputDomain = inputDomains[iDomain];
+          inputDomain = this.getDomainFromUrl(inputDomain);
+          inputDomain = this.trimWWWFromDomain(inputDomain);
+
+          // if a domain is already registered
+          if (
+            this.domainListData.some(item => {
+              return item.domain === inputDomain;
+            })
+          ) {
+            continue;
+          }
+
+          this.domainListData.push({
+            id: currentAddIndex++,
+            domain: inputDomain
+          });
+        }
+
+        this.saveData(this.domainListData);
+        this.isDuplicateErrorMessageVisible = false;
+        this.addItemText = "";
       }
-
-      this.isDuplicateErrorMessageVisible = false;
-
-      const numListData = this.domainListData.length;
-      this.domainListData.push({
-        id: numListData + 1,
-        domain: inputDomain
-      });
-
-      this.saveData(this.domainListData);
-
-      this.addItemText = "";
     },
     deleteItem(id) {
       console.log("begin deleteItem()");

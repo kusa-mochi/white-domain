@@ -77,7 +77,7 @@ function openOrFocusOptionsPage() {
 function WhiteDomain() {
     chrome.browserAction.setBadgeBackgroundColor({ color: [44, 148, 60, 100] });
 
-    // タブが更新されたときに実行する処理
+    // execute this code when a tab is opened/updated.
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         if (changeInfo.status == 'complete' && tab.active) {
             console.log('tab updated. url=' + tab.url);
@@ -85,7 +85,7 @@ function WhiteDomain() {
         }
     });
 
-    // タブが切り替わったときに実行する処理
+    // execute this code when a tab is switched.
     chrome.tabs.onActivated.addListener(function (tabId) {
         chrome.tabs.query({ "active": true }, function (tab) {
             console.log('tab switched. url=' + tab[0].url);

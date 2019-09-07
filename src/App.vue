@@ -80,11 +80,11 @@ export default {
       let dataToSave = this.serialize(data);
       console.log("dataToSave: " + dataToSave);
 
-      chrome.storage.sync.set({ "domains": dataToSave }, function() {});
+      chrome.storage.sync.set({ domains: dataToSave }, function() {});
     },
     deserialize(list) {
-      output = [];
-      tmpList = list.split(",");
+      let output = [];
+      const tmpList = list.split(",");
       for (let i = 0; i < tmpList.length; i++) {
         output.push({
           id: i,
@@ -95,11 +95,13 @@ export default {
     },
     loadData() {
       console.log("begin loadData()");
-      chrome.storage.sync.get("domains", function(result) {
+      chrome.storage.sync.get("domains", result => {
         console.log("storage get: " + result.domains);
-        if (result.domains === undefined || result.domains === null) return;
-
-        this.domainListData = this.deserialize(result.domains);
+        if (result.domains === undefined || result.domains === null) {
+          this.domainListData = [];
+        } else {
+          this.domainListData = this.deserialize(result.domains);
+        }
       });
     }
   },

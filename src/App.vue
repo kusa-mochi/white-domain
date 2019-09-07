@@ -153,12 +153,12 @@ export default {
       });
     }
   },
-  computed: {
-    isAddButtonDisabled() {
-      if (this.addItemText === "") return true;
-      return false;
-    }
-  },
+  // computed: {
+  //   isAddButtonDisabled() {
+  //     if (this.addItemText === "") return true;
+  //     return false;
+  //   }
+  // },
   mounted() {
     this.loadData();
   },

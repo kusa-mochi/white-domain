@@ -2,8 +2,8 @@
   <div id="app">
     <h2>Your white domain list</h2>
     <div class="input-area">
-      <input type="text" v-model="addItemText" />
-      <button v-on:click="addItem()" v-bind:disabled="isAddButtonDisabled">Add</button>
+      <input type="text" v-model="addItemText" v-on:keydown.enter="addItem" />
+      <button v-on:click="addItem" v-bind:disabled="isAddButtonDisabled">Add</button>
     </div>
     <table>
       <tbody>
@@ -39,6 +39,8 @@ export default {
       });
 
       this.saveData(this.domainListData);
+
+      this.addItemText = "";
     },
     deleteItem(id) {
       console.log("begin deleteItem()");

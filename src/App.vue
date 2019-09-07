@@ -9,7 +9,7 @@
     <div class="input-area">
       <input
         type="text"
-        placeholder="write a domain and press ENTER key"
+        placeholder="slash-mochi.net;google.com;youtube.com"
         class="domain-input"
         v-model="addItemText"
         v-on:keydown.enter="addItem"

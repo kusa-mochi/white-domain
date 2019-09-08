@@ -77,6 +77,14 @@ function openOrFocusOptionsPage() {
 function WhiteDomain() {
     chrome.browserAction.setBadgeBackgroundColor({ color: [44, 148, 60, 100] });
 
+    chrome.storage.sync.get("initialized", function (result) {
+        // if this extension is called NOT first after installed.
+        if (result.initialized) return;
+
+        openOrFocusOptionsPage();
+        chrome.storage.sync.set({ initialized: true }, function () { });
+    });
+
     // execute this code when a tab is opened/updated.
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         if (changeInfo.status == 'complete' && tab.active) {

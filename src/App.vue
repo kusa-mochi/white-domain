@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h2>Your white domain list</h2>
+    <h2>White Domain Badge - Your white domain list</h2>
     <div>Write domains (separeted by semicolon) and press ENTER key to register "white" domains.</div>
     <div v-if="isDuplicateErrorMessageVisible" class="duplicate-error-message">
       <span class="duplicate-error-message-domain">{{duplicateDomain}}</span> is already in your white domain list.

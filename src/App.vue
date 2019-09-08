@@ -24,7 +24,7 @@
         ></domain-list-row>
       </tbody>
     </table>
-    <div class="produced-by">"White Domain Badge" is produced by <a href="https://slash-mochi.net/?p=2530">Mochi</a>.</div>
+    <div class="link">How to use: <a href="https://slash-mochi.net/?p=2530">slash-mochi.net</a>.</div>
   </div>
 </template>
 

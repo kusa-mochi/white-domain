@@ -24,6 +24,7 @@
         ></domain-list-row>
       </tbody>
     </table>
+    <div class="produced-by">"White Domain Badge" is produced by <a href="https://slash-mochi.net/?p=2530">Mochi</a>.</div>
   </div>
 </template>
 
@@ -181,5 +182,9 @@ export default {
 
 .domain-input {
   width: 500px;
+}
+
+.produced-by {
+  font-size: 11px;
 }
 </style>

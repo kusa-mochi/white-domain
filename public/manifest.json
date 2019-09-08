@@ -2,6 +2,7 @@
   "description": "This extension shows you a green label on a browser-action-icon when you access to a site that is in your white domain list.",
   "manifest_version": 2,
   "name": "White Domain Badge",
+  "homepage_url": "https://slash-mochi.net/?p=2530",
   "version": "1.0",
   "icons": {
     "16": "slash-mochi16.png",
